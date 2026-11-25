@@ -62,7 +62,12 @@ a:focus-visible,.btn:focus-visible,summary:focus-visible,button:focus-visible{ou
 .hero-photo{margin:0;position:relative;align-self:start;margin-top:6px}
 .hero-photo img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 30%;border-radius:999px 999px 22px 22px;border:6px solid var(--snow);box-shadow:0 0 0 2px rgba(243,194,91,.75),0 34px 60px -24px rgba(0,0,0,.65)}
 .pill{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(243,194,91,.6);background:rgba(11,42,32,.55);border-radius:999px;padding:7px 16px;font-size:15px;font-weight:600;color:var(--gold-soft)}
-.pill .icon{color:var(--gold)}
+.pill .icon{color:var(--gold);flex:none}
+.pill > span{text-wrap:balance}
+.hero h1 .hl{color:var(--gold)}
+.hero .sub .hl-sub{color:var(--on-dark);font-weight:700}
+.hero .sub{text-wrap:pretty}
+.cta .alt{text-wrap:balance}
 .hero h1{font-size:clamp(36px,4.6vw,60px);line-height:1.05}
 .hero .sub{margin:0;font-size:clamp(18px,1.7vw,21px);line-height:1.5;color:var(--on-dark-soft);max-width:56ch}
 .cta{display:flex;flex-direction:column;align-items:flex-start;gap:10px;margin-top:6px}
@@ -200,6 +205,12 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 
   .hero-copy{padding-bottom:0}
   .hero-photo{width:min(78%,340px);justify-self:center;margin-top:12px}
   .snowman{display:none}
+  .brand{justify-content:center}
+  .pill{align-self:center}
+  .hero h1,.hero .sub{text-align:center}
+  .hero .sub{margin-inline:auto}
+  .cta{align-items:center}
+  .facts{justify-content:center}
 }
 @media (max-width:1020px){
   .doors{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -329,9 +340,9 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 
     <div class="brand"><img src="img/logo.png" width="30" height="30" alt=""><span>REVIVAL</span></div>
     <div class="hero-grid">
     <div class="hero-copy">
-      <span class="pill"><svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>Spending the holidays on the couch, in the car and at the table?</span>
-      <h1 id="h1" data-before="Get Through the Holidays Without Stiffening Up From the Cold and All That Sitting" data-after="Get Through the Holidays Without Stiffening Up From the Cold and All That Sitting">Get Through the Holidays Without Stiffening Up From the Cold and All That Sitting</h1>
-      <p class="sub" id="sub" data-before="12 Days of Repatterning ’Til Christmas: 1 lesson a day with me from December 14, for your breath, ribs, bum, shoulders, neck and back. Simple enough to do in the living room with everyone home." data-after="12 Days of Repatterning ’Til Christmas: all 12 lessons are open inside REVIVAL, for your breath, ribs, bum, shoulders, neck and back. Simple enough to do in the living room with everyone home.">12 Days of Repatterning ’Til Christmas: 1 lesson a day with me from December 14, for your breath, ribs, bum, shoulders, neck and back. Simple enough to do in the living room with everyone home.</p>
+      <span class="pill"><svg class="icon" aria-hidden="true"><use href="#i-star"/></svg><span>Couch, car, dinner table, repeat?</span></span>
+      <h1 id="h1" data-before="Get Through the Holidays Without Stiffening Up From the Cold and All That Sitting" data-after="Get Through the Holidays Without Stiffening Up From the Cold and All That Sitting">Get Through the Holidays <span class="hl">Without Stiffening Up</span> From the Cold and All That Sitting</h1>
+      <p class="sub" id="sub" data-before="12 Days of Repatterning ’Til Christmas: 1 lesson a day with me from December 14, for your breath, ribs, bum, shoulders, neck and back. Simple enough to do in the living room with everyone home." data-after="12 Days of Repatterning ’Til Christmas: all 12 lessons are open inside REVIVAL, for your breath, ribs, bum, shoulders, neck and back. Simple enough to do in the living room with everyone home."><strong class="hl-sub">12 Days of Repatterning ’Til Christmas:</strong> 1 lesson a day with me from December 14, for your breath, ribs, bum, shoulders, neck and back. Simple enough to do in the living room with everyone home.</p>
       <div class="cta" id="hero-cta">
         <a class="btn" data-plan="monthly" data-loc="hero" href="join/?plan=monthly">Start the Merry Reset <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
         <p class="price">$49 a month, cancel anytime</p>
@@ -636,8 +647,10 @@ function render(){
   const phase = now < START ? "before" : now < END ? "during" : "after";
   const dayNo = Math.min(12, Math.floor((now - START) / 86400000) + 1);
   const h1 = $("#h1"), sub = $("#sub");
-  h1.textContent = phase === "after" ? h1.dataset.after : h1.dataset.before;
-  sub.textContent = phase === "after" ? sub.dataset.after : sub.dataset.before;
+  const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  const accent = (t, phrase, open, close) => esc(t).replace(esc(phrase), open + esc(phrase) + close);
+  h1.innerHTML = accent(phase === "after" ? h1.dataset.after : h1.dataset.before, "Without Stiffening Up", '<span class="hl">', "</span>");
+  sub.innerHTML = accent(phase === "after" ? sub.dataset.after : sub.dataset.before, "12 Days of Repatterning ’Til Christmas:", '<strong class="hl-sub">', "</strong>");
   const close = $("#close-title");
   close.textContent = close.dataset[phase];
   let count = "", when = "Starts Monday, December 14", stick = "The Merry Reset starts Dec 14";
