@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found | The Merry Reset</title>
+<script>
+  // Links typed with capitals (like /Join) land here because page addresses are case-sensitive.
+  // Send them to the lowercase address when it's different.
+  (function () {
+    var p = location.pathname, low = p.toLowerCase();
+    if (low !== p) location.replace(low + location.search + location.hash);
+  })();
+</script>
+<style>body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#123B2E;color:#FFFCF7;font-family:Georgia,serif;text-align:center;padding:24px}a{color:#F3C25B}</style>
+</head>
+<body>
+<p>This page doesn't exist. <a href="/">Go to the Merry Reset</a></p>
+</body>
+</html>
